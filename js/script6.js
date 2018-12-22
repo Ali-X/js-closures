@@ -38,9 +38,24 @@ function isRequired(string) {
   return string === true;
 }
 
-function isValidatedEmail(email) {
+function isValidatedEmailRegex(email) {
   let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
+}
+
+function isValidatedEmail(email) {
+  let atSymbolPosition = email.indexOf("@");
+  let dotSymbolPosition = email.indexOf(".");
+
+  if (atSymbolPosition < 1) {
+    return false;
+  }
+
+  if (dotSymbolPosition === email.length - 1) {
+    return false;
+  }
+
+  return true;
 }
 
 function validateName(nameObj) {
