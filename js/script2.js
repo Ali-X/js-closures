@@ -13,14 +13,14 @@ function comparePassword(password) {
   }
 }
 
-let funct = comparePassword("password");
+let func = comparePassword("password");
 let userInput = prompt("Enter password", "default");
 
-console.log(funct(userInput));//1
-console.log(funct(userInput));//2
-console.log(funct(userInput));//3
-console.log(funct(userInput));//4
-console.log(funct(userInput));//5
-console.log(funct(userInput));//6
-console.log(funct(userInput));//7
+console.log(func(userInput));//1
+console.log(func(userInput));//2
+console.log(func(userInput));//3
+console.log(func(userInput));//4
+console.log(func(userInput));//5
+console.log(func(userInput));//6
+console.log(func(userInput));//7
 
