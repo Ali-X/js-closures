@@ -2,19 +2,19 @@ let form = {
   name: {
     value: 'Masha',
     validationRules: {
+      required: true,
       minLength: 3,
       maxLength: 20,
-      required: true,
     },
-    errorMessage: "Username is incorrect!",
+    errorMessage: "",
   },
   email: {
     value: 'email@example.com',
     validationRules: {
-      email: true,
       required: true,
+      email: true,
     },
-    errorMessage: "Email is incorrect!",
+    errorMessage: "",
   },
 };
 
@@ -34,8 +34,13 @@ function isEmpty(string) {
   return !string;
 }
 
-function isRequired(string) {
-  return string === true;
+function isRequired(required) {
+  if (required === true) {
+    return function (value) {
+      return !isEmpty(value);
+    }
+  }
+  return true;
 }
 
 function isValidatedEmailRegex(email) {
@@ -47,52 +52,55 @@ function isValidatedEmail(email) {
   let atSymbolPosition = email.indexOf("@");
   let dotSymbolPosition = email.indexOf(".");
 
-  if (atSymbolPosition < 1) {
-    return false;
-  }
-
-  if (dotSymbolPosition === email.length - 1) {
-    return false;
-  }
-
-  return true;
-}
-
-function validateName(nameObj) {
-  //name properties
-  let nameValue = nameObj['value'];
-  let minLength = nameObj['validationRules']['minLength'];
-  let maxLength = nameObj['validationRules']['maxLength'];
-  let requiredValue = nameObj['validationRules']['required'];
-
-  //length validators
-  let minLengthValidator = isValidMinLength(minLength);
-  let maxLengthValidator = isValidMaxLength(maxLength);
-
-  return !isEmpty(nameValue) && maxLengthValidator(nameValue) && minLengthValidator(nameValue) && isRequired(requiredValue);
-}
-
-function validateEmail(emailObj) {
-  //email properties
-  let emailValue = emailObj['value'];
-  let requiredValue = emailObj['validationRules']['required'];
-
-  return !isEmpty(emailValue) && isRequired(requiredValue) && isValidatedEmail(emailValue);
+  return !(atSymbolPosition < 1 || dotSymbolPosition < 1);
 }
 
 function validation(obj) {
-  let nameObj = obj['name'];
-  let emailObj = obj['email'];
+  for (keyValue in obj) {
+    let keyObj = obj[keyValue];
+    let propValue = keyObj.value;
+    let valRules = keyObj.validationRules;
 
-  let isNameValidated = validateName(nameObj);
-  let isEmailValidated = validateEmail(emailObj);
+    for (rule in valRules) {
+      switch (rule) {
+        case 'required': {
+          if (!isRequired(valRules[rule])(propValue)) {
+            keyObj.errorMessage = "The field is required";
+            return false;
+          } else {
+            break;
+          }
+        }
+        case 'minLength': {
+          if (!isValidMinLength(valRules[rule])(propValue)) {
+            keyObj.errorMessage = rule + " is not valid";
+            return false;
+          } else {
+            break;
+          }
+        }
+        case 'maxLength': {
+          if (!isValidMaxLength(valRules[rule])(propValue)) {
+            keyObj.errorMessage = rule + " is not valid";
+            return false;
+          } else {
+            break;
+          }
+        }
+        case 'email': {
+          if (!valRules[rule]) {
+            break;
+          }
 
-  if (!isNameValidated) {
-    return nameObj['errorMessage'];
-  }
-
-  if (!isEmailValidated) {
-    return emailObj['errorMessage'];
+          if (!isValidatedEmail(propValue)) {
+            keyObj.errorMessage = rule + " is not valid";
+            return false;
+          } else {
+            break;
+          }
+        }
+      }
+    }
   }
 
   return true;
