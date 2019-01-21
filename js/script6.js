@@ -35,12 +35,13 @@ function isEmpty(string) {
 }
 
 function isRequired(required) {
-  if (required === true) {
-    return function (value) {
+  return function (value) {
+    if (required === true) {
       return !isEmpty(value);
+    } else {
+      return true;
     }
   }
-  return true;
 }
 
 function isValidatedEmailRegex(email) {
