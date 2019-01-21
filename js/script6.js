@@ -21,13 +21,13 @@ let form = {
 console.log(validation(form));
 
 function isValidMinLength(minLength) {
-  return function (username) {
+  return function(username) {
     return username.length >= minLength;
   }
 }
 
 function isValidMaxLength(maxLength) {
-  return function (username) {
+  return function(username) {
     return username.length <= maxLength;
   }
 }
@@ -37,7 +37,7 @@ function isEmpty(string) {
 }
 
 function isRequired(required) {
-  return function (value) {
+  return function(value) {
     if (required === true) {
       return !isEmpty(value);
     } else {

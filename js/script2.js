@@ -1,7 +1,7 @@
 function comparePassword(password) {
   let count = 0;
 
-  return function (userInput) {
+  return function(userInput) {
     if (userInput === password && count < 5) {
       return true;
     } else if (userInput !== password && count < 5) {

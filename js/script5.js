@@ -6,7 +6,7 @@
   }
 })('cookies');*/
 
-let foodFunc = function (food) {
+let foodFunc = function(food) {
   return food === 'cookies' ? console.log('More please :)') : console.log('Some food please :)')
 };
 

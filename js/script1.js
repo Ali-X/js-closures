@@ -1,7 +1,7 @@
 function incrementCounter() {
   let i = 0;
 
-  return function () {
+  return function() {
     return ++i;
   }
 }

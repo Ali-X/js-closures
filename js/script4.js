@@ -1,7 +1,7 @@
 function incrementCounter() {
   let obj = {
     i: 0,
-    increment: function () {
+    increment: function() {
       return ++obj.i;
     }
   };
