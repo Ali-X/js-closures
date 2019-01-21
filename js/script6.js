@@ -18,6 +18,8 @@ let form = {
   },
 };
 
+console.log(validation(form));
+
 function isValidMinLength(minLength) {
   return function (username) {
     return username.length >= minLength;
@@ -106,5 +108,3 @@ function validation(obj) {
 
   return true;
 }
-
-console.log(validation(form));
